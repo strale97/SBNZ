@@ -1,5 +1,6 @@
 package ftn.sbnz.SBNZBackend.service;
 
+import ftn.sbnz.SBNZBackend.model.HardDrive;
 import ftn.sbnz.SBNZBackend.model.Konfiguracija;
 import ftn.sbnz.SBNZBackend.model.Zahtevi;
 import org.kie.api.runtime.KieContainer;
@@ -41,6 +42,9 @@ public class TestService {
             System.out.println("RAM: " + konfiguracija.getRam().getIme());
             System.out.println("Cena: " + konfiguracija.getCena());
             System.out.println("Laptop: " + konfiguracija.isLaptop());
+            for (HardDrive h: konfiguracija.getHardDrives()) {
+                System.out.println("Hard drive: " + h.getIme());
+            }
             System.out.println("-------------------------------------------------------------");
         }
     }

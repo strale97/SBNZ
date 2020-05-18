@@ -29,21 +29,21 @@ rule "Koristio pre racunar, trazi isti operativni sistem"
     when
         $k : Konfiguracija( zahtevi.isKoristioPre(), os == zahtevi.getOs() )
     then
-        $k.addPoeni(5);
+        $k.addPoeni(10);
 end
 
 rule "Koristio pre racunar, nebitan operativni sistem"
     when
         $k : Konfiguracija( zahtevi.isKoristioPre(), zahtevi.getOs() == "NA" )
     then
-        $k.addPoeni(5);
+        $k.addPoeni(10);
 end
 
 rule "Nije koristio pre racunar, preporucuje mu se Windows"
     when
         $k : Konfiguracija( !zahtevi.isKoristioPre(), getOs() == "Windows" )
     then
-        $k.addPoeni(5);
+        $k.addPoeni(10);
 end
 
 // Pravila vezana za potrebu za prenosivoscu
@@ -68,14 +68,14 @@ rule "GPU konfiguracije je od istog proizvodjaca kao i u zahtevu"
     when
         $k : Konfiguracija( getGpu().getIme() contains zahtevi.getPrefGpu() )
     then
-        $k.addPoeni(5);
+        $k.addPoeni(10);
 end
 
 rule "CPU konfiguracije je od istog proizvodjaca kao i u zahtevu"
     when
         $k : Konfiguracija( getCpu().getIme() contains zahtevi.getPrefCpu() )
     then
-        $k.addPoeni(5);
+        $k.addPoeni(10);
 end
 
 // Pravila vezana za svrhu upotrebe racunara
@@ -243,7 +243,7 @@ rule "Za gaming i video editing, velika brzina RAM memorije"
     when
         $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 3600 )
     then
-        $k.addPoeni(30);
+        $k.addPoeni(25);
 end
 
 // Za gaming i video editing, atributi hard drive memorije
