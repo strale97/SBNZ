@@ -1,0 +1,22 @@
+package sbnz.integracija;
+import ftn.sbnz.SBNZBackend.model.Konfiguracija;
+import ftn.sbnz.SBNZBackend.model.Zahtevi;
+import ftn.sbnz.SBNZBackend.model.GPU;
+import ftn.sbnz.SBNZBackend.model.CPU;
+import ftn.sbnz.SBNZBackend.model.HardDrive;
+
+global Zahtevi zahtevi;
+
+rule "Konfiguracija ispod budzeta"
+    when
+        $k : Konfiguracija( cena <= zahtevi.getBudzet() )
+    then
+        $k.addPoeni(80);
+end
+
+rule "Konfiguracija do 10% iznad budzeta"
+    when
+        $k : Konfiguracija( cena > zahtevi.getBudzet(), cena <= zahtevi.getBudzet()*1.1 )
+    then
+        $k.addPoeni(40);
+end

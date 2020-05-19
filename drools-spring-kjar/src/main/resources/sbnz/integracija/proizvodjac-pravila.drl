@@ -1,0 +1,22 @@
+package sbnz.integracija;
+import ftn.sbnz.SBNZBackend.model.Konfiguracija;
+import ftn.sbnz.SBNZBackend.model.Zahtevi;
+import ftn.sbnz.SBNZBackend.model.GPU;
+import ftn.sbnz.SBNZBackend.model.CPU;
+import ftn.sbnz.SBNZBackend.model.HardDrive;
+
+global Zahtevi zahtevi;
+
+rule "GPU konfiguracije je od istog proizvodjaca kao i u zahtevu"
+    when
+        $k : Konfiguracija( getGpu().getIme() contains zahtevi.getPrefGpu() )
+    then
+        $k.addPoeni(10);
+end
+
+rule "CPU konfiguracije je od istog proizvodjaca kao i u zahtevu"
+    when
+        $k : Konfiguracija( getCpu().getIme() contains zahtevi.getPrefCpu() )
+    then
+        $k.addPoeni(10);
+end

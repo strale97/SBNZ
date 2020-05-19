@@ -1,0 +1,51 @@
+package sbnz.integracija;
+import ftn.sbnz.SBNZBackend.model.Konfiguracija;
+import ftn.sbnz.SBNZBackend.model.Zahtevi;
+import ftn.sbnz.SBNZBackend.model.GPU;
+import ftn.sbnz.SBNZBackend.model.CPU;
+import ftn.sbnz.SBNZBackend.model.HardDrive;
+
+global Zahtevi zahtevi;
+
+rule "Za web surfing, memorija"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $hardDrives : getHardDrives() )
+        HardDrive( getMemorija() >= 250 ) from $hardDrives
+    then
+        $k.addPoeni(10);
+end
+
+rule "Za web surfing, RAM memorija"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $ram : getRam(), $ram.getMemorija() >= 4 )
+    then
+        $k.addPoeni(10);
+end
+
+rule "Za web surfing, GPU memorija"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $gpu : getGpu(), $gpu.getMemorija() >= 2 )
+    then
+        $k.addPoeni(10);
+end
+
+rule "Za web surfing, brzina CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getBrzina() >= 2.0)
+    then
+        $k.addPoeni(10);
+end
+
+rule "Za web surfing, jezgra CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getJezgra() >= 2)
+    then
+        $k.addPoeni(10);
+end
+
+rule "Za web surfing, tredovi CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getTredovi() >= 2)
+    then
+        $k.addPoeni(10);
+end

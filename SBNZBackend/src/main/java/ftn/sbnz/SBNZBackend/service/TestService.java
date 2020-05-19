@@ -40,11 +40,11 @@ public class TestService {
             System.out.println("GPU: " + konfiguracija.getGpu().getIme());
             System.out.println("CPU: " + konfiguracija.getCpu().getIme());
             System.out.println("RAM: " + konfiguracija.getRam().getIme());
-            System.out.println("Cena: " + konfiguracija.getCena());
-            System.out.println("Laptop: " + konfiguracija.isLaptop());
             for (HardDrive h: konfiguracija.getHardDrives()) {
                 System.out.println("Hard drive: " + h.getIme());
             }
+            System.out.println("Cena: " + konfiguracija.getCena());
+            System.out.println("Laptop: " + konfiguracija.isLaptop());
             System.out.println("-------------------------------------------------------------");
         }
     }

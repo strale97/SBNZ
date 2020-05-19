@@ -1,0 +1,28 @@
+package sbnz.integracija;
+import ftn.sbnz.SBNZBackend.model.Konfiguracija;
+import ftn.sbnz.SBNZBackend.model.Zahtevi;
+import ftn.sbnz.SBNZBackend.model.GPU;
+import ftn.sbnz.SBNZBackend.model.CPU;
+import ftn.sbnz.SBNZBackend.model.HardDrive;
+
+global Zahtevi zahtevi;
+rule "Koristio pre racunar, trazi isti operativni sistem"
+    when
+        $k : Konfiguracija( zahtevi.isKoristioPre(), os == zahtevi.getOs() )
+    then
+        $k.addPoeni(10);
+end
+
+rule "Koristio pre racunar, nebitan operativni sistem"
+    when
+        $k : Konfiguracija( zahtevi.isKoristioPre(), zahtevi.getOs() == "NA" )
+    then
+        $k.addPoeni(10);
+end
+
+rule "Nije koristio pre racunar, preporucuje mu se Windows"
+    when
+        $k : Konfiguracija( !zahtevi.isKoristioPre(), getOs() == "Windows" )
+    then
+        $k.addPoeni(10);
+end

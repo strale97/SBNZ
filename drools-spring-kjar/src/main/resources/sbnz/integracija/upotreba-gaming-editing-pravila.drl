@@ -7,78 +7,6 @@ import ftn.sbnz.SBNZBackend.model.HardDrive;
 
 global Zahtevi zahtevi;
 
-// Pravila vezana za budzet
-
-rule "Konfiguracija ispod budzeta"
-    when
-        $k : Konfiguracija( cena <= zahtevi.getBudzet() )
-    then
-        $k.addPoeni(80);
-end
-
-rule "Konfiguracija do 10% iznad budzeta"
-    when
-        $k : Konfiguracija( cena > zahtevi.getBudzet(), cena <= zahtevi.getBudzet()*1.1 )
-    then
-        $k.addPoeni(40);
-end
-
-// Pravila vezana za prethodno koriscenje racunara
-
-rule "Koristio pre racunar, trazi isti operativni sistem"
-    when
-        $k : Konfiguracija( zahtevi.isKoristioPre(), os == zahtevi.getOs() )
-    then
-        $k.addPoeni(10);
-end
-
-rule "Koristio pre racunar, nebitan operativni sistem"
-    when
-        $k : Konfiguracija( zahtevi.isKoristioPre(), zahtevi.getOs() == "NA" )
-    then
-        $k.addPoeni(10);
-end
-
-rule "Nije koristio pre racunar, preporucuje mu se Windows"
-    when
-        $k : Konfiguracija( !zahtevi.isKoristioPre(), getOs() == "Windows" )
-    then
-        $k.addPoeni(10);
-end
-
-// Pravila vezana za potrebu za prenosivoscu
-
-rule "Konfiguracija je istog tipa kao i zahtevana (laptop)"
-    when
-        $k : Konfiguracija( zahtevi.isLaptop(), isLaptop() )
-    then
-        $k.addPoeni(60);
-end
-
-rule "Konfiguracija je istog tipa kao i zahtevana (desktop)"
-    when
-        $k : Konfiguracija( !zahtevi.isLaptop(), !isLaptop() )
-    then
-        $k.addPoeni(30);
-end
-
-// Pravila vezana za preferiranog proizvodjaca
-
-rule "GPU konfiguracije je od istog proizvodjaca kao i u zahtevu"
-    when
-        $k : Konfiguracija( getGpu().getIme() contains zahtevi.getPrefGpu() )
-    then
-        $k.addPoeni(10);
-end
-
-rule "CPU konfiguracije je od istog proizvodjaca kao i u zahtevu"
-    when
-        $k : Konfiguracija( getCpu().getIme() contains zahtevi.getPrefCpu() )
-    then
-        $k.addPoeni(10);
-end
-
-// Pravila vezana za svrhu upotrebe racunara
 //Za gaming i video editovanje, atributi CPU u tri nivoa (losiji, srednji, bolji)
 
 rule "Za gaming i video editovanje, manja brzina CPU"
@@ -260,51 +188,6 @@ rule "Za gaming i video editing, memorija"
     when
         $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $hardDrives : getHardDrives() )
         HardDrive( getMemorija() > 750 ) from $hardDrives
-    then
-        $k.addPoeni(10);
-end
-
-// Za web surfing
-
-rule "Za web surfing, memorija"
-    when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $hardDrives : getHardDrives() )
-        HardDrive( getMemorija() >= 250 ) from $hardDrives
-    then
-        $k.addPoeni(10);
-end
-
-rule "Za web surfing, RAM memorija"
-    when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $ram : getRam(), $ram.getMemorija() >= 4 )
-    then
-        $k.addPoeni(10);
-end
-
-rule "Za web surfing, GPU memorija"
-    when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $gpu : getGpu(), $gpu.getMemorija() >= 2 )
-    then
-        $k.addPoeni(10);
-end
-
-rule "Za web surfing, brzina CPU"
-    when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getBrzina() >= 2.0)
-    then
-        $k.addPoeni(10);
-end
-
-rule "Za web surfing, jezgra CPU"
-    when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getJezgra() >= 2)
-    then
-        $k.addPoeni(10);
-end
-
-rule "Za web surfing, tredovi CPU"
-    when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getTredovi() >= 2)
     then
         $k.addPoeni(10);
 end
