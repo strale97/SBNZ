@@ -1,0 +1,22 @@
+package sbnz.integracija;
+import ftn.sbnz.SBNZBackend.model.Konfiguracija;
+import ftn.sbnz.SBNZBackend.model.Zahtevi;
+import ftn.sbnz.SBNZBackend.model.GPU;
+import ftn.sbnz.SBNZBackend.model.CPU;
+import ftn.sbnz.SBNZBackend.model.HardDrive;
+
+global Zahtevi zahtevi;
+
+rule "Konfiguracija je istog tipa kao i zahtevana (laptop)"
+    when
+        $k : Konfiguracija( zahtevi.isLaptop(), isLaptop() )
+    then
+        $k.addPoeni(60);
+end
+
+rule "Konfiguracija je istog tipa kao i zahtevana (desktop)"
+    when
+        $k : Konfiguracija( !zahtevi.isLaptop(), !isLaptop() )
+    then
+        $k.addPoeni(30);
+end

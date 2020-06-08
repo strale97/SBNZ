@@ -1,0 +1,193 @@
+package sbnz.integracija;
+import ftn.sbnz.SBNZBackend.model.Konfiguracija;
+import ftn.sbnz.SBNZBackend.model.Zahtevi;
+import ftn.sbnz.SBNZBackend.model.GPU;
+import ftn.sbnz.SBNZBackend.model.CPU;
+import ftn.sbnz.SBNZBackend.model.HardDrive;
+
+global Zahtevi zahtevi;
+
+//Za gaming i video editovanje, atributi CPU u tri nivoa (losiji, srednji, bolji)
+
+rule "Za gaming i video editovanje, manja brzina CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getBrzina() >= 3.2, $cpu.getBrzina() < 3.5)
+    then
+        $k.addPoeni(5);
+end
+
+rule "Za gaming i video editovanje, manje jezgara CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getJezgra() >= 4, $cpu.getJezgra() <= 6)
+    then
+        $k.addPoeni(5);
+end
+
+rule "Za gaming i video editovanje, manje tredova CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getTredovi() >= 4, $cpu.getTredovi() < 8)
+    then
+        $k.addPoeni(5);
+end
+
+rule "Za gaming i video editovanje, srednja brzina CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getBrzina() >= 3.5, $cpu.getBrzina() < 3.9)
+    then
+        $k.addPoeni(15);
+end
+
+rule "Za gaming i video editovanje, osrednje jezgara CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getJezgra() >= 8, $cpu.getJezgra() < 12)
+    then
+        $k.addPoeni(15);
+end
+
+rule "Za gaming i video editovanje, osrednje tredova CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getTredovi() >= 10, $cpu.getTredovi() < 16)
+    then
+        $k.addPoeni(15);
+end
+
+rule "Za gaming i video editovanje, velika brzina CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getBrzina() >= 3.9)
+    then
+        $k.addPoeni(25);
+end
+
+rule "Za gaming i video editovanje, mnogo jezgara CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getJezgra() >= 12)
+    then
+        $k.addPoeni(25);
+end
+
+rule "Za gaming i video editovanje, mnogo tredova CPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getTredovi() >= 16)
+    then
+        $k.addPoeni(25);
+end
+
+// Za gaming i video editing, atributi GPU u tri nivoa (losiji, srednji, bolji)
+
+rule "Za gaming i video editing, manja memorija GPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getMemorija() >= 2, $gpu.getMemorija() < 4 )
+    then
+        $k.addPoeni(5);
+end
+
+rule "Za gaming i video editing, losiji tip memorije GPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getTipMemorije() == "GDDR5" )
+    then
+        $k.addPoeni(5);
+end
+
+rule "Za gaming i video editing, srednja memorija GPU"
+    when
+       $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getMemorija() >= 4, $gpu.getMemorija() <= 8 )
+    then
+        $k.addPoeni(15);
+end
+
+rule "Za gaming i video editing, osrednji tip memorije GPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getTipMemorije() == "GDDR5X" )
+    then
+        $k.addPoeni(15);
+end
+
+rule "Za gaming i video editing, velika memorija GPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getMemorija() > 8 )
+    then
+        $k.addPoeni(25);
+end
+
+rule "Za gaming i video editing, bolji tip memorije GPU"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getTipMemorije() == "GDDR6" )
+    then
+        $k.addPoeni(25);
+end
+
+// Za gaming i video editing, atributi RAM memorije u tri nivoa (losiji, srednji, bolji)
+
+rule "Za gaming i video editing, manja RAM memorija"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getMemorija() >= 8, $ram.getMemorija() <= 12 )
+    then
+        $k.addPoeni(5);
+end
+
+rule "Za gaming i video editing, losiji tip RAM memorije"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getTipMemorije() == "DDR3" )
+    then
+        $k.addPoeni(5);
+end
+
+rule "Za gaming i video editing, losija brzina RAM memorije"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 2500, $ram.getBrzina() < 3000 )
+    then
+        $k.addPoeni(5);
+end
+
+rule "Za gaming i video editing, srednja RAM memorija"
+    when
+       $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getMemorija() > 12, $ram.getMemorija() <= 32 )
+    then
+        $k.addPoeni(15);
+end
+
+rule "Za gaming i video editing, srednja brzina RAM memorije"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 3000, $ram.getBrzina() < 3600 )
+    then
+        $k.addPoeni(15);
+end
+
+rule "Za gaming i video editing, velika RAM memorija"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getMemorija() > 32 )
+    then
+        $k.addPoeni(25);
+end
+
+rule "Za gaming i video editing, bolji tip RAM memorije"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getTipMemorije() == "DDR4" )
+    then
+        $k.addPoeni(15);
+end
+
+rule "Za gaming i video editing, velika brzina RAM memorije"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 3600 )
+    then
+        $k.addPoeni(25);
+end
+
+// Za gaming i video editing, atributi hard drive memorije
+
+rule "Za gaming i video editing, SSD memorija"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $hardDrives : getHardDrives() )
+        HardDrive( getTip() == "SSD" ) from $hardDrives
+    then
+        $k.addPoeni(15);
+end
+
+rule "Za gaming i video editing, memorija"
+    when
+        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $hardDrives : getHardDrives() )
+        HardDrive( getMemorija() > 750 ) from $hardDrives
+    then
+        $k.addPoeni(10);
+end

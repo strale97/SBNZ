@@ -15,6 +15,7 @@ class SbnzBackendApplicationTests {
 	@Autowired
 	private TestService testService;
 
+/*
 	@Test
 	void test() {
 		GPU gtx1050ti = new GPU();
@@ -254,11 +255,12 @@ class SbnzBackendApplicationTests {
 		zahtevi.setKoristioPre(false);
 		zahtevi.setLaptop(true);
 		zahtevi.setUpotreba("web surfing");
-		zahtevi.setOs("NA");
-		zahtevi.setPrefCpu("NA");
-		zahtevi.setPrefGpu("NA");
+		zahtevi.setOs("NONE");
+		zahtevi.setPrefCpu("NONE");
+		zahtevi.setPrefGpu("NONE");
 
-		testService.topPreporuke(konfiguracije, zahtevi);
+		testService.test(konfiguracije, zahtevi);
 	}
+*/
 
 }

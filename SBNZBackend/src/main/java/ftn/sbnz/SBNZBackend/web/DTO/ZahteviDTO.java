@@ -1,9 +1,6 @@
-package ftn.sbnz.SBNZBackend.model;
+package ftn.sbnz.SBNZBackend.web.DTO;
 
-import ftn.sbnz.SBNZBackend.web.DTO.ZahteviDTO;
-
-public class Zahtevi {
-
+public class ZahteviDTO {
     private boolean koristioPre;
     private String os;
     private String upotreba;
@@ -12,20 +9,10 @@ public class Zahtevi {
     private String prefGpu;
     private String prefCpu;
 
-    public Zahtevi() {
+    public ZahteviDTO() {
     }
 
-    public Zahtevi(ZahteviDTO zahteviDTO) {
-        this.koristioPre = zahteviDTO.isKoristioPre();
-        this.os = zahteviDTO.getOs();
-        this.upotreba = zahteviDTO.getUpotreba();
-        this.budzet = zahteviDTO.getBudzet();
-        this.laptop = zahteviDTO.isLaptop();
-        this.prefGpu = zahteviDTO.getPrefGpu();
-        this.prefCpu = zahteviDTO.getPrefCpu();
-    }
-
-    public Zahtevi(boolean koristioPre, String os, String upotreba, int budzet, boolean laptop, String prefGpu, String prefCpu) {
+    public ZahteviDTO(boolean koristioPre, String os, String upotreba, int budzet, boolean laptop, String prefGpu, String prefCpu) {
         this.koristioPre = koristioPre;
         this.os = os;
         this.upotreba = upotreba;
@@ -51,22 +38,6 @@ public class Zahtevi {
         this.os = os;
     }
 
-    public String getPrefGpu() {
-        return prefGpu;
-    }
-
-    public void setPrefGpu(String prefGpu) {
-        this.prefGpu = prefGpu;
-    }
-
-    public String getPrefCpu() {
-        return prefCpu;
-    }
-
-    public void setPrefCpu(String prefCpu) {
-        this.prefCpu = prefCpu;
-    }
-
     public String getUpotreba() {
         return upotreba;
     }
@@ -89,5 +60,21 @@ public class Zahtevi {
 
     public void setLaptop(boolean laptop) {
         this.laptop = laptop;
+    }
+
+    public String getPrefGpu() {
+        return prefGpu;
+    }
+
+    public void setPrefGpu(String prefGpu) {
+        this.prefGpu = prefGpu;
+    }
+
+    public String getPrefCpu() {
+        return prefCpu;
+    }
+
+    public void setPrefCpu(String prefCpu) {
+        this.prefCpu = prefCpu;
     }
 }
