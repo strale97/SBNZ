@@ -1,0 +1,5 @@
+rule "asd"
+when
+then
+    System.out.println("Dodao pravilo");
+end

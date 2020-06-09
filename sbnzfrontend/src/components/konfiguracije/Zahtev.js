@@ -89,13 +89,15 @@ const Zahtev = (props) => {
         <FormTitle>Popunite zahteve</FormTitle>
         <form>
           <TextField
+            type="number"
             label="Budzet"
             value={budzet}
             onChange={(event) => setBudzet(event.target.value)}
           />
 
+          <label>Laptop:</label>
           <Checkbox checked={laptop} onChange={handleCheckLaptop} />
-
+          <label>Svrha upotrebe:</label>
           <Select
             id="upotreba"
             value={upotreba}
@@ -103,7 +105,7 @@ const Zahtev = (props) => {
           >
             {upotrebaOptionsList}
           </Select>
-
+          <label>Preferirani proizvodjac GPU:</label>
           <Select
             id="prefGpu"
             value={prefGpu}
@@ -111,7 +113,7 @@ const Zahtev = (props) => {
           >
             {prefGpuOptionsList}
           </Select>
-
+          <label>Preferirani proizvodjac CPU:</label>
           <Select
             id="prefCpu"
             value={prefCpu}
@@ -119,9 +121,9 @@ const Zahtev = (props) => {
           >
             {prefCpuOptionsList}
           </Select>
-
+          <label>Da li ste koristili pre racunar:</label>
           <Checkbox checked={koristioPre} onChange={handleCheckKoristioPre} />
-
+          <label>Ukoliko jeste, koji biste koristili:</label>
           <Select
             id="os"
             value={os}

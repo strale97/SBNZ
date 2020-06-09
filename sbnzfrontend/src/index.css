@@ -34,3 +34,14 @@ form > button {
 .prikaz {
   margin: 25px;
 }
+
+.dodajPravilo {
+  width: 30% !important;
+  padding: 30px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}

@@ -7,7 +7,7 @@ import {
     Select,
     Checkbox,
     MenuItem,
-    Button
+    Button,
   } from "@material-ui/core";
 
 const Pregled = (props) => {
@@ -49,7 +49,10 @@ const Pregled = (props) => {
     <Container className="form-container">
         <Paper>
             <form>
+                <label>Laptop:</label>
                 <Checkbox checked={laptop} onChange={handleCheckLaptop} />
+                
+                <label>Operativni sistem:</label>
                 <Select
                     id="os"
                     value={os}

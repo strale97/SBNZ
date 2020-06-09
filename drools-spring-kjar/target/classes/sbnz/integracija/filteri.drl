@@ -16,7 +16,7 @@ query hasLaptop(Integer id, boolean laptop)
     Konfiguracija(id, getOs(), laptop;)
 end
 
-query hasKonfiguracija(Integer id, String os, boolean laptop)
+query hasKonfiguracija(Integer id)
     hasOs(id, os;)
     hasLaptop(id, laptop;)
 end
@@ -25,7 +25,7 @@ end
 rule "Filteri za konfiguraciju"
     when
         $k : Konfiguracija($id : getId());
-        hasKonfiguracija($id, os, laptop;)
+        hasKonfiguracija($id;)
     then
         konfiguracije.add($k);
 end

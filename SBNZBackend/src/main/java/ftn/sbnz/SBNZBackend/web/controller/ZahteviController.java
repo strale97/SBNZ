@@ -3,11 +3,13 @@ package ftn.sbnz.SBNZBackend.web.controller;
 import ftn.sbnz.SBNZBackend.model.Konfiguracija;
 import ftn.sbnz.SBNZBackend.model.Zahtevi;
 import ftn.sbnz.SBNZBackend.service.TestService;
+import ftn.sbnz.SBNZBackend.web.DTO.DrlDTO;
 import ftn.sbnz.SBNZBackend.web.DTO.FilterDTO;
 import ftn.sbnz.SBNZBackend.web.DTO.ZahteviDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -42,5 +44,12 @@ public class ZahteviController {
     public ResponseEntity<ArrayList<Konfiguracija>> filter(@RequestBody FilterDTO filterDTO){
         ArrayList<Konfiguracija> konfiguracije = testService.filter(filterDTO.getOs(), filterDTO.isLaptop());
         return new ResponseEntity<>(konfiguracije, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/dodajPravilo")
+    public ResponseEntity<Boolean> dodajPravilo(@RequestBody DrlDTO drlDTO){
+        boolean uspeo = testService.dodajPravilo(drlDTO.getText(), drlDTO.getIme());
+        return new ResponseEntity<>(uspeo, HttpStatus.OK);
     }
 }

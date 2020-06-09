@@ -54,6 +54,11 @@ const Navbar = () => {
               Pregled svih konfiguracija
             </Link>
           </Button>
+          <Button>
+            <Link className={classes.link} to="/pravilo">
+              Dodati pravilo
+            </Link>
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

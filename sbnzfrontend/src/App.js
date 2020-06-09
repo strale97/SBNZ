@@ -5,6 +5,7 @@ import Zahtev from "./components/konfiguracije/Zahtev";
 import Pregled from "./components/konfiguracije/Pregled";
 import Login from "./components/user/Login";
 import Navbar from "./components/layout/Navbar";
+import DodajPravilo from "./components/user/DodajPravilo"
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route path="/pregled">
             <Pregled />
+          </Route>
+          <Route path="/pravilo">
+            <DodajPravilo accessToken={accessToken} />
           </Route>
         </Switch>
       </Router>

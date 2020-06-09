@@ -1,11 +1,16 @@
 package ftn.sbnz.SBNZBackend.service;
 
 import ftn.sbnz.SBNZBackend.model.*;
+import ftn.sbnz.SBNZBackend.web.DTO.DrlDTO;
+import org.apache.maven.shared.invoker.*;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -20,6 +25,37 @@ public class TestService {
         return konfiguracije.get(id);
     }
 
+    public boolean dodajPravilo(String pravilo, String ime){
+        String path = "..\\drools-spring-kjar\\src\\main\\resources\\sbnz\\integracija\\" + ime + ".drl";
+        try {
+            if(new File(path).exists()){
+                return false;
+            }
+            PrintWriter out = new PrintWriter(new File(path));
+            out.println(pravilo);
+            out.close();
+            cleanInstall();
+            return true;
+        } catch (MavenInvocationException | FileNotFoundException e){
+            return false;
+        } catch (RuntimeException e){
+            new File(path).delete();
+            return false;
+        }
+    }
+
+    private void cleanInstall () throws RuntimeException, MavenInvocationException {
+        InvocationRequest request = new DefaultInvocationRequest();
+        request.setPomFile( new File( "..\\drools-spring-kjar\\pom.xml" ) );
+        ArrayList<String> goals = new ArrayList<String>();
+        goals.add("clean");
+        goals.add("install");
+        request.setGoals(goals);
+        Invoker invoker = new DefaultInvoker();
+        invoker.setMavenHome(new File(System.getenv("M2_HOME")));
+        invoker.execute( request );
+    }
+
     public ArrayList<Konfiguracija> filter(String os, boolean laptop){
         ArrayList<Konfiguracija> konfs = new ArrayList<>();
         ArrayList<Konfiguracija> konfiguracije = testKonfiguracije();
@@ -32,7 +68,7 @@ public class TestService {
             kieSession.insert(konfiguracija);
         }
         try {
-            System.out.println(kieSession.fireAllRules());
+            kieSession.fireAllRules();
         } catch (Exception e) {
             kieSession.dispose();
             return konfs;
