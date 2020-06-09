@@ -22,6 +22,9 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
+          <Route path="/pregled">
+            <Pregled />
+          </Route>
         </Switch>
       </Router>
     </div>

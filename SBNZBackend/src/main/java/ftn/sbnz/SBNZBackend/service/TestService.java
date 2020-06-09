@@ -1,6 +1,7 @@
 package ftn.sbnz.SBNZBackend.service;
 
 import ftn.sbnz.SBNZBackend.model.*;
+import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +13,33 @@ import java.util.Comparator;
 public class TestService {
 
     @Autowired
-    private SessionService sessionService;
+    private KieContainer kieContainer;
 
     public Konfiguracija getById(int id){
         ArrayList<Konfiguracija> konfiguracije = testKonfiguracije();
         return konfiguracije.get(id);
+    }
+
+    public ArrayList<Konfiguracija> filter(String os, boolean laptop){
+        ArrayList<Konfiguracija> konfs = new ArrayList<>();
+        ArrayList<Konfiguracija> konfiguracije = testKonfiguracije();
+        KieSession kieSession = kieContainer.newKieSession("konfig");
+        kieSession.setGlobal("konfiguracije", konfs);
+        kieSession.setGlobal("os", os);
+        kieSession.setGlobal("laptop", laptop);
+        kieSession.setGlobal("zahtevi", new Zahtevi());
+        for (Konfiguracija konfiguracija: konfiguracije) {
+            kieSession.insert(konfiguracija);
+        }
+        try {
+            System.out.println(kieSession.fireAllRules());
+        } catch (Exception e) {
+            kieSession.dispose();
+            return konfs;
+        }
+        konfs =  (ArrayList<Konfiguracija>) kieSession.getGlobal("konfiguracije");
+        kieSession.dispose();
+        return konfs;
     }
 
     public ArrayList<Konfiguracija> getAll(){
@@ -25,7 +48,10 @@ public class TestService {
 
     public ArrayList<Konfiguracija> topPreporuke(Zahtevi zahtevi) {
         ArrayList<Konfiguracija> konfiguracije = testKonfiguracije();
-        KieSession kieSession = sessionService.getKieSession();
+        KieSession kieSession = kieContainer.newKieSession("konfig");
+        kieSession.setGlobal("konfiguracije", new ArrayList<>());
+        kieSession.setGlobal("os", "");
+        kieSession.setGlobal("laptop", false);
         kieSession.setGlobal("zahtevi", zahtevi);
         for (Konfiguracija konfiguracija: konfiguracije) {
             kieSession.insert(konfiguracija);
@@ -41,18 +67,19 @@ public class TestService {
             System.out.println("GPU: " + konfiguracija.getGpu().getIme());
             System.out.println("CPU: " + konfiguracija.getCpu().getIme());
             System.out.println("RAM: " + konfiguracija.getRam().getIme());
-            for (HardDrive h: konfiguracija.getHardDrives()) {
+            for (HardDrive h : konfiguracija.getHardDrives()) {
                 System.out.println("Hard drive: " + h.getIme());
             }
             System.out.println("Cena: " + konfiguracija.getCena());
             System.out.println("Laptop: " + konfiguracija.isLaptop());
             System.out.println("-------------------------------------------------------------");
         }
+        kieSession.dispose();
         return top4;
     }
 
     public void test(ArrayList<Konfiguracija> konfiguracije, Zahtevi zahtevi) {
-        KieSession kieSession = sessionService.getKieSession();
+        KieSession kieSession = kieContainer.newKieSession();
         kieSession.setGlobal("zahtevi", zahtevi);
         for (Konfiguracija konfiguracija: konfiguracije) {
             kieSession.insert(konfiguracija);

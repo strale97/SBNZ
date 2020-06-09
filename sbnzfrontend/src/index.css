@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.form-container {
+  width: 30% !important;
+  padding: 30px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+form > div {
+  margin: 10px 0px !important;
+}
+
+form > button {
+  margin-top: 20px !important;
+}
+
+.prikaz {
+  margin: 25px;
+}

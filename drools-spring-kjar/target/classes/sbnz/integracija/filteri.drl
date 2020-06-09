@@ -1,0 +1,31 @@
+package sbnz.integracija;
+dialect  "mvel"
+
+import ftn.sbnz.SBNZBackend.model.Konfiguracija
+import java.util.ArrayList
+
+global ArrayList<Konfiguracija> konfiguracije
+global String os
+global Boolean laptop
+
+query hasOs(Integer id, String os)
+    Konfiguracija(id, os;)
+end
+
+query hasLaptop(Integer id, boolean laptop)
+    Konfiguracija(id, getOs(), laptop;)
+end
+
+query hasKonfiguracija(Integer id, String os, boolean laptop)
+    hasOs(id, os;)
+    hasLaptop(id, laptop;)
+end
+
+
+rule "Filteri za konfiguraciju"
+    when
+        $k : Konfiguracija($id : getId());
+        hasKonfiguracija($id, os, laptop;)
+    then
+        konfiguracije.add($k);
+end

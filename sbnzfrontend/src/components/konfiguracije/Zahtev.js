@@ -10,19 +10,21 @@ import {
 } from "@material-ui/core";
 import Axios from "axios";
 import FormTitle from "../layout/FormTitle";
+import Prikaz from "../konfiguracije/Prikaz";
 
 const Zahtev = (props) => {
   const [budzet, setBudzet] = React.useState("");
   const [laptop, setLaptop] = React.useState(false);
   const [upotreba, setUpotreba] = React.useState("web surfing");
-  const [upotrebaOptions, setUpotrebaOptions] = React.useState(["web surfing", "gaming", "video editing"]);
+  const [upotrebaOptions] = React.useState(["web surfing", "gaming", "video editing"]);
   const [prefGpu, setPrefGpu] = React.useState("NONE");
-  const [prefGpuOptions, setPrefGpuOptions] = React.useState(["NONE", "NVIDIA", "AMD"]);
+  const [prefGpuOptions] = React.useState(["NONE", "NVIDIA", "AMD"]);
   const [prefCpu, setPrefCpu] = React.useState("NONE");
-  const [prefCpuOptions, setPrefCpuOptions] = React.useState(["NONE", "Intel", "AMD"]);
+  const [prefCpuOptions] = React.useState(["NONE", "Intel", "AMD"]);
   const [koristioPre, setKoristioPre] = React.useState(false);
-  const [os, setOs] = React.useState("NONE");
-  const [osOptions, setOsOptions] = React.useState(["NONE", "Windows", "Linux"]);
+  const [os, setOs] = React.useState("NA");
+  const [osOptions] = React.useState(["NA", "Windows", "Linux"]);
+  const [konfiguracije, setKonfiguracije] = React.useState([]); 
   
   const handleCheckLaptop = (event) => {
     setLaptop(event.target.checked);
@@ -56,7 +58,7 @@ const Zahtev = (props) => {
     Axios.post(
       "http://localhost:8080/test",
       zahtev
-    ).then((response) => console.log(response.data));
+    ).then((response) => setKonfiguracije(response.data));
   };
   const upotrebaOptionsList = upotrebaOptions.map((opt) => (
     <MenuItem key={opt} value={opt}>
@@ -78,12 +80,14 @@ const Zahtev = (props) => {
       {opt}
     </MenuItem>
   ));
+  const prikazKonfiguracija = konfiguracije.map((konf) => (
+    <Prikaz konfiguracija = {konf} key = {konf.id}/>
+  ));
   return (
     <Container className="form-container">
       <Paper elevation={3}>
         <FormTitle>Popunite zahteve</FormTitle>
         <form>
-          Zahtev
           <TextField
             label="Budzet"
             value={budzet}
@@ -131,6 +135,7 @@ const Zahtev = (props) => {
           </Button>
         </form>
       </Paper>
+      {prikazKonfiguracija}
     </Container>
   );
 };

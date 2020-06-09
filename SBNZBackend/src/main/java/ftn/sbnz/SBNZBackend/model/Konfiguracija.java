@@ -1,8 +1,11 @@
 package ftn.sbnz.SBNZBackend.model;
 
+import org.kie.api.definition.type.Position;
+
 import java.util.ArrayList;
 
 public class Konfiguracija {
+    @Position(0)
     private int id;
     private CPU cpu;
     private GPU gpu;
@@ -12,13 +15,16 @@ public class Konfiguracija {
     private String link;
     private int poeni;
     private int cena;
+    @Position(1)
     private String os;
+    @Position(2)
     private boolean laptop;
+    private boolean popularno = false;
 
     public Konfiguracija() {
     }
 
-    public Konfiguracija(int id, CPU cpu, GPU gpu, RAM ram, ArrayList<HardDrive> hardDrives, String ime, String link, int poeni, int cena, String os, boolean laptop) {
+    public Konfiguracija(int id, CPU cpu, GPU gpu, RAM ram, ArrayList<HardDrive> hardDrives, String ime, String link, int poeni, int cena, String os, boolean laptop, boolean popularno) {
         this.id = id;
         this.cpu = cpu;
         this.gpu = gpu;
@@ -30,6 +36,15 @@ public class Konfiguracija {
         this.cena = cena;
         this.os = os;
         this.laptop = laptop;
+        this.popularno = popularno;
+    }
+
+    public boolean isPopularno() {
+        return popularno;
+    }
+
+    public void setPopularno(boolean popularno) {
+        this.popularno = popularno;
     }
 
     public int getId() {
