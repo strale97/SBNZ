@@ -8,44 +8,50 @@ import ftn.sbnz.SBNZBackend.model.HardDrive;
 global Zahtevi zahtevi;
 
 rule "Za web surfing, memorija"
+    salience 66
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $hardDrives : getHardDrives() )
+        $k : Konfiguracija( getSkor().getMemorijaHardDisk() == 0, zahtevi.getUpotreba() == "web surfing", $hardDrives : getHardDrives() )
         HardDrive( getMemorija() >= 250 ) from $hardDrives
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setMemorijaHardDisk(10)}
 end
 
 rule "Za web surfing, RAM memorija"
+    salience 65
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $ram : getRam(), $ram.getMemorija() >= 4 )
+        $k : Konfiguracija( getSkor().getMemorijaRam() == 0, zahtevi.getUpotreba() == "web surfing", $ram : getRam(), $ram.getMemorija() >= 4 )
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setMemorijaRam(10)}
 end
 
 rule "Za web surfing, GPU memorija"
+    salience 64
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $gpu : getGpu(), $gpu.getMemorija() >= 2 )
+        $k : Konfiguracija( getSkor().getMemorijaGpu() == 0, zahtevi.getUpotreba() == "web surfing", $gpu : getGpu(), $gpu.getMemorija() >= 2 )
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setMemorijaGpu(10)}
 end
 
 rule "Za web surfing, brzina CPU"
+    salience 63
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getBrzina() >= 2.0)
+        $k : Konfiguracija( getSkor().getBrzinaCpu() == 0, zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getBrzina() >= 2.0)
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setBrzinaCpu(10)}
 end
 
 rule "Za web surfing, jezgra CPU"
+    salience 62
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getJezgra() >= 2)
+        $k : Konfiguracija( getSkor().getJezgraCpu() == 0, zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getJezgra() >= 2)
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setJezgraCpu(10)}
 end
 
 rule "Za web surfing, tredovi CPU"
+    salience 61
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getTredovi() >= 2)
+        $k : Konfiguracija( getSkor().getTredoviCpu() == 0, zahtevi.getUpotreba() == "web surfing", $cpu : getCpu(), $cpu.getTredovi() >= 2)
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setTredoviCpu(10)}
 end

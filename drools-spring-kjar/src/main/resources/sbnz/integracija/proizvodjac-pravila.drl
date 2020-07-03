@@ -8,15 +8,17 @@ import ftn.sbnz.SBNZBackend.model.HardDrive;
 global Zahtevi zahtevi;
 
 rule "GPU konfiguracije je od istog proizvodjaca kao i u zahtevu"
+    salience 93
     when
-        $k : Konfiguracija( getGpu().getIme() contains zahtevi.getPrefGpu() )
+        $k : Konfiguracija( getSkor().getGpuProizvodjac() == 0, getGpu().getIme() contains zahtevi.getPrefGpu() )
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setGpuProizvodjac(10)}
 end
 
 rule "CPU konfiguracije je od istog proizvodjaca kao i u zahtevu"
+    salience 92
     when
-        $k : Konfiguracija( getCpu().getIme() contains zahtevi.getPrefCpu() )
+        $k : Konfiguracija( getSkor().getCpuProizvodjac() == 0, getCpu().getIme() contains zahtevi.getPrefCpu() )
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setCpuProizvodjac(10)}
 end

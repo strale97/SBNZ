@@ -1,6 +1,7 @@
 package ftn.sbnz.SBNZBackend.service;
 
 import ftn.sbnz.SBNZBackend.model.*;
+import ftn.sbnz.SBNZBackend.util.Sorter;
 import ftn.sbnz.SBNZBackend.web.DTO.DrlDTO;
 import org.apache.maven.shared.invoker.*;
 import org.kie.api.runtime.KieContainer;
@@ -12,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 @Service
@@ -94,12 +96,12 @@ public class TestService {
         }
         kieSession.fireAllRules();
         ArrayList<Konfiguracija> top4 = new ArrayList<>();
-        konfiguracije.sort(Comparator.comparing(Konfiguracija::getPoeni));
+        Collections.sort(konfiguracije, new Sorter());
         for (int i = 0; i < 4; i++) {
-            top4.add(konfiguracije.get(konfiguracije.size()-1-i));
+            top4.add(konfiguracije.get(i));
         }
         for (Konfiguracija konfiguracija: top4) {
-            System.out.println(konfiguracija.getIme() + ": " + konfiguracija.getPoeni());
+            System.out.println(konfiguracija.getIme() + ": " + konfiguracija.getSkor().getSuma());
             System.out.println("GPU: " + konfiguracija.getGpu().getIme());
             System.out.println("CPU: " + konfiguracija.getCpu().getIme());
             System.out.println("RAM: " + konfiguracija.getRam().getIme());
@@ -115,7 +117,7 @@ public class TestService {
     }
 
     public void test(ArrayList<Konfiguracija> konfiguracije, Zahtevi zahtevi) {
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("konfig");
         kieSession.setGlobal("zahtevi", zahtevi);
         for (Konfiguracija konfiguracija: konfiguracije) {
             kieSession.insert(konfiguracija);
@@ -123,12 +125,12 @@ public class TestService {
         kieSession.fireAllRules();
         kieSession.dispose();
         ArrayList<Konfiguracija> top4 = new ArrayList<>();
-        konfiguracije.sort(Comparator.comparing(Konfiguracija::getPoeni));
+        Collections.sort(konfiguracije, new Sorter());
         for (int i = 0; i < 4; i++) {
-            top4.add(konfiguracije.get(konfiguracije.size()-1-i));
+            top4.add(konfiguracije.get(i));
         }
         for (Konfiguracija konfiguracija: top4) {
-            System.out.println(konfiguracija.getIme() + ": " + konfiguracija.getPoeni());
+            System.out.println(konfiguracija.getIme() + ": " + konfiguracija.getSkor().getSuma());
             System.out.println("GPU: " + konfiguracija.getGpu().getIme());
             System.out.println("CPU: " + konfiguracija.getCpu().getIme());
             System.out.println("RAM: " + konfiguracija.getRam().getIme());
@@ -251,7 +253,6 @@ public class TestService {
         konfiguracija.setHardDrives(hardDrives);
         konfiguracija.setId(1);
         konfiguracija.setIme("Moja konfiguracija");
-        konfiguracija.setPoeni(0);
         konfiguracija.setCena(50000);
         konfiguracija.setOs("Windows");
         konfiguracija.setLaptop(false);
@@ -266,7 +267,6 @@ public class TestService {
         konfiguracija1.setHardDrives(hardDrives1);
         konfiguracija1.setId(2);
         konfiguracija1.setIme("Druga konfiguracija");
-        konfiguracija1.setPoeni(0);
         konfiguracija1.setCena(29000);
         konfiguracija1.setOs("Windows");
         konfiguracija1.setLaptop(true);
@@ -282,7 +282,6 @@ public class TestService {
         konfiguracija2.setHardDrives(hardDrives2);
         konfiguracija2.setId(3);
         konfiguracija2.setIme("Treca konfiguracija");
-        konfiguracija2.setPoeni(0);
         konfiguracija2.setCena(70000);
         konfiguracija2.setOs("Windows");
         konfiguracija2.setLaptop(false);
@@ -298,7 +297,6 @@ public class TestService {
         konfiguracija3.setHardDrives(hardDrives3);
         konfiguracija3.setId(4);
         konfiguracija3.setIme("Cetvrta konfiguracija");
-        konfiguracija3.setPoeni(0);
         konfiguracija3.setCena(85000);
         konfiguracija3.setOs("NA");
         konfiguracija3.setLaptop(false);
@@ -313,7 +311,6 @@ public class TestService {
         konfiguracija4.setHardDrives(hardDrives4);
         konfiguracija4.setId(5);
         konfiguracija4.setIme("Peta konfiguracija");
-        konfiguracija4.setPoeni(0);
         konfiguracija4.setCena(50000);
         konfiguracija4.setOs("NA");
         konfiguracija4.setLaptop(true);
@@ -329,7 +326,6 @@ public class TestService {
         konfiguracija5.setHardDrives(hardDrives5);
         konfiguracija5.setId(6);
         konfiguracija5.setIme("Sesta konfiguracija");
-        konfiguracija5.setPoeni(0);
         konfiguracija5.setCena(38000);
         konfiguracija5.setOs("Linux");
         konfiguracija5.setLaptop(false);
@@ -344,7 +340,6 @@ public class TestService {
         konfiguracija6.setHardDrives(hardDrives6);
         konfiguracija6.setId(7);
         konfiguracija6.setIme("Sedma konfiguracija");
-        konfiguracija6.setPoeni(0);
         konfiguracija6.setCena(45000);
         konfiguracija6.setOs("Windows");
         konfiguracija6.setLaptop(true);
@@ -359,7 +354,6 @@ public class TestService {
         konfiguracija7.setHardDrives(hardDrives7);
         konfiguracija7.setId(8);
         konfiguracija7.setIme("Osma konfiguracija");
-        konfiguracija7.setPoeni(0);
         konfiguracija7.setCena(42000);
         konfiguracija7.setOs("Windows");
         konfiguracija7.setLaptop(false);

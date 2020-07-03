@@ -10,184 +10,209 @@ global Zahtevi zahtevi;
 //Za gaming i video editovanje, atributi CPU u tri nivoa (losiji, srednji, bolji)
 
 rule "Za gaming i video editovanje, manja brzina CPU"
+    salience 91
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getBrzina() >= 3.2, $cpu.getBrzina() < 3.5)
+        $k : Konfiguracija( getSkor().getBrzinaCpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getBrzina() >= 3.2, $cpu.getBrzina() < 3.5)
     then
-        $k.addPoeni(5);
+        modify($k){getSkor().setBrzinaCpu(5)}
 end
 
 rule "Za gaming i video editovanje, manje jezgara CPU"
+    salience 90
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getJezgra() >= 4, $cpu.getJezgra() <= 6)
+        $k : Konfiguracija( getSkor().getJezgraCpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getJezgra() >= 4, $cpu.getJezgra() <= 6)
     then
-        $k.addPoeni(5);
+        modify($k){getSkor().setJezgraCpu(5)}
 end
 
 rule "Za gaming i video editovanje, manje tredova CPU"
+    salience 89
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getTredovi() >= 4, $cpu.getTredovi() < 8)
+        $k : Konfiguracija( getSkor().getTredoviCpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getTredovi() >= 4, $cpu.getTredovi() < 8)
     then
-        $k.addPoeni(5);
+        modify($k){getSkor().setTredoviCpu(5)}
 end
 
 rule "Za gaming i video editovanje, srednja brzina CPU"
+    salience 88
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getBrzina() >= 3.5, $cpu.getBrzina() < 3.9)
+        $k : Konfiguracija( getSkor().getBrzinaCpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getBrzina() >= 3.5, $cpu.getBrzina() < 3.9)
     then
-        $k.addPoeni(15);
+        modify($k){getSkor().setBrzinaCpu(15)}
 end
 
 rule "Za gaming i video editovanje, osrednje jezgara CPU"
+    salience 87
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getJezgra() >= 8, $cpu.getJezgra() < 12)
+        $k : Konfiguracija( getSkor().getJezgraCpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getJezgra() >= 8, $cpu.getJezgra() < 12)
     then
-        $k.addPoeni(15);
+        modify($k){getSkor().setJezgraCpu(15)}
 end
 
 rule "Za gaming i video editovanje, osrednje tredova CPU"
+    salience 86
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getTredovi() >= 10, $cpu.getTredovi() < 16)
+        $k : Konfiguracija( getSkor().getTredoviCpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getTredovi() >= 10, $cpu.getTredovi() < 16)
     then
-        $k.addPoeni(15);
+        modify($k){getSkor().setTredoviCpu(15)}
 end
 
 rule "Za gaming i video editovanje, velika brzina CPU"
+    salience 85
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getBrzina() >= 3.9)
+        $k : Konfiguracija( getSkor().getBrzinaCpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getBrzina() >= 3.9)
     then
-        $k.addPoeni(25);
+        modify($k){getSkor().setBrzinaCpu(25)}
 end
 
 rule "Za gaming i video editovanje, mnogo jezgara CPU"
+    salience 84
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getJezgra() >= 12)
+        $k : Konfiguracija( getSkor().getJezgraCpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getJezgra() >= 12)
     then
-        $k.addPoeni(25);
+        modify($k){getSkor().setJezgraCpu(25)}
 end
 
 rule "Za gaming i video editovanje, mnogo tredova CPU"
+    salience 83
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getTredovi() >= 16)
+        $k : Konfiguracija( getSkor().getTredoviCpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $cpu : getCpu(), $cpu.getTredovi() >= 16)
     then
-        $k.addPoeni(25);
+        modify($k){getSkor().setTredoviCpu(25)}
 end
 
 // Za gaming i video editing, atributi GPU u tri nivoa (losiji, srednji, bolji)
 
 rule "Za gaming i video editing, manja memorija GPU"
+    salience 82
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getMemorija() >= 2, $gpu.getMemorija() < 4 )
+        $k : Konfiguracija( getSkor().getMemorijaGpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getMemorija() >= 2, $gpu.getMemorija() < 4 )
     then
-        $k.addPoeni(5);
+        modify($k){getSkor().setMemorijaGpu(5)}
 end
 
 rule "Za gaming i video editing, losiji tip memorije GPU"
+    salience 81
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getTipMemorije() == "GDDR5" )
+        $k : Konfiguracija( getSkor().getTipMemorijeGpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getTipMemorije() == "GDDR5" )
     then
-        $k.addPoeni(5);
+        modify($k){getSkor().setTipMemorijeGpu(5)}
 end
 
 rule "Za gaming i video editing, srednja memorija GPU"
+    salience 80
     when
-       $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getMemorija() >= 4, $gpu.getMemorija() <= 8 )
+       $k : Konfiguracija( getSkor().getMemorijaGpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getMemorija() >= 4, $gpu.getMemorija() <= 8 )
     then
-        $k.addPoeni(15);
+        modify($k){getSkor().setMemorijaGpu(15)}
 end
 
 rule "Za gaming i video editing, osrednji tip memorije GPU"
+    salience 79
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getTipMemorije() == "GDDR5X" )
+        $k : Konfiguracija( getSkor().getTipMemorijeGpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getTipMemorije() == "GDDR5X" )
     then
-        $k.addPoeni(15);
+        modify($k){getSkor().setTipMemorijeGpu(15)}
 end
 
 rule "Za gaming i video editing, velika memorija GPU"
+    salience 78
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getMemorija() > 8 )
+        $k : Konfiguracija( getSkor().getMemorijaGpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getMemorija() > 8 )
     then
-        $k.addPoeni(25);
+        modify($k){getSkor().setMemorijaGpu(25)}
 end
 
 rule "Za gaming i video editing, bolji tip memorije GPU"
+    salience 77
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getTipMemorije() == "GDDR6" )
+        $k : Konfiguracija( getSkor().getTipMemorijeGpu() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $gpu : getGpu(), $gpu.getTipMemorije() == "GDDR6" )
     then
-        $k.addPoeni(25);
+        modify($k){getSkor().setTipMemorijeGpu(25)}
 end
 
 // Za gaming i video editing, atributi RAM memorije u tri nivoa (losiji, srednji, bolji)
 
 rule "Za gaming i video editing, manja RAM memorija"
+    salience 76
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getMemorija() >= 8, $ram.getMemorija() <= 12 )
+        $k : Konfiguracija( getSkor().getMemorijaRam() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getMemorija() >= 8, $ram.getMemorija() <= 12 )
     then
-        $k.addPoeni(5);
+        modify($k){getSkor().setMemorijaRam(5)}
 end
 
 rule "Za gaming i video editing, losiji tip RAM memorije"
+    salience 75
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getTipMemorije() == "DDR3" )
+        $k : Konfiguracija( getSkor().getTipMemorijeRam() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getTipMemorije() == "DDR3" )
     then
-        $k.addPoeni(5);
+        modify($k){getSkor().setTipMemorijeRam(5)}
 end
 
 rule "Za gaming i video editing, losija brzina RAM memorije"
+    salience 74
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 2500, $ram.getBrzina() < 3000 )
+        $k : Konfiguracija( getSkor().getBrzinaRam() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 2500, $ram.getBrzina() < 3000 )
     then
-        $k.addPoeni(5);
+        modify($k){getSkor().setBrzinaRam(5)}
 end
 
 rule "Za gaming i video editing, srednja RAM memorija"
+    salience 73
     when
-       $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getMemorija() > 12, $ram.getMemorija() <= 32 )
+       $k : Konfiguracija( getSkor().getMemorijaRam() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getMemorija() > 12, $ram.getMemorija() <= 32 )
     then
-        $k.addPoeni(15);
+        modify($k){getSkor().setMemorijaRam(15)}
 end
 
 rule "Za gaming i video editing, srednja brzina RAM memorije"
+    salience 72
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 3000, $ram.getBrzina() < 3600 )
+        $k : Konfiguracija( getSkor().getBrzinaRam() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 3000, $ram.getBrzina() < 3600 )
     then
-        $k.addPoeni(15);
+        modify($k){getSkor().setBrzinaRam(15)}
 end
 
 rule "Za gaming i video editing, velika RAM memorija"
+    salience 71
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getMemorija() > 32 )
+        $k : Konfiguracija( getSkor().getMemorijaRam() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getMemorija() > 32 )
     then
-        $k.addPoeni(25);
+        modify($k){getSkor().setMemorijaRam(25)}
 end
 
 rule "Za gaming i video editing, bolji tip RAM memorije"
+    salience 70
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getTipMemorije() == "DDR4" )
+        $k : Konfiguracija( getSkor().getTipMemorijeRam() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getTipMemorije() == "DDR4" )
     then
-        $k.addPoeni(15);
+        modify($k){getSkor().setTipMemorijeRam(5)}
 end
 
 rule "Za gaming i video editing, velika brzina RAM memorije"
+    salience 69
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 3600 )
+        $k : Konfiguracija( getSkor().getBrzinaRam() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $ram : getRam(), $ram.getBrzina() >= 3600 )
     then
-        $k.addPoeni(25);
+        modify($k){getSkor().setBrzinaRam(25)}
 end
 
 // Za gaming i video editing, atributi hard drive memorije
 
 rule "Za gaming i video editing, SSD memorija"
+    salience 68
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $hardDrives : getHardDrives() )
+        $k : Konfiguracija( getSkor().getTipMemorijeHardDisk() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $hardDrives : getHardDrives() )
         HardDrive( getTip() == "SSD" ) from $hardDrives
     then
-        $k.addPoeni(15);
+        modify($k){getSkor().setTipMemorijeHardDisk(15)}
 end
 
 rule "Za gaming i video editing, memorija"
+    salience 67
     when
-        $k : Konfiguracija( zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $hardDrives : getHardDrives() )
+        $k : Konfiguracija( getSkor().getMemorijaHardDisk() == 0, zahtevi.getUpotreba() == "gaming" || zahtevi.getUpotreba() == "video editing", $hardDrives : getHardDrives() )
         HardDrive( getMemorija() > 750 ) from $hardDrives
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setMemorijaHardDisk(15)}
 end

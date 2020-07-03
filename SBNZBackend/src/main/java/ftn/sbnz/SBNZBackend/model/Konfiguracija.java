@@ -13,18 +13,18 @@ public class Konfiguracija {
     private ArrayList<HardDrive> hardDrives;
     private String ime;
     private String link;
-    private int poeni;
     private int cena;
     @Position(1)
     private String os;
     @Position(2)
     private boolean laptop;
     private boolean popularno = false;
+    private Skor skor = new Skor();
 
     public Konfiguracija() {
     }
 
-    public Konfiguracija(int id, CPU cpu, GPU gpu, RAM ram, ArrayList<HardDrive> hardDrives, String ime, String link, int poeni, int cena, String os, boolean laptop, boolean popularno) {
+    public Konfiguracija(int id, CPU cpu, GPU gpu, RAM ram, ArrayList<HardDrive> hardDrives, String ime, String link, int cena, String os, boolean laptop, boolean popularno, Skor skor) {
         this.id = id;
         this.cpu = cpu;
         this.gpu = gpu;
@@ -32,11 +32,11 @@ public class Konfiguracija {
         this.hardDrives = hardDrives;
         this.ime = ime;
         this.link = link;
-        this.poeni = poeni;
         this.cena = cena;
         this.os = os;
         this.laptop = laptop;
         this.popularno = popularno;
+        this.skor = skor;
     }
 
     public boolean isPopularno() {
@@ -103,16 +103,12 @@ public class Konfiguracija {
         this.link = link;
     }
 
-    public int getPoeni() {
-        return poeni;
+    public Skor getSkor() {
+        return skor;
     }
 
-    public void setPoeni(int poeni) {
-        this.poeni = poeni;
-    }
-
-    public void addPoeni(int poeni){
-        this.poeni += poeni;
+    public void setSkor(Skor skor) {
+        this.skor = skor;
     }
 
     public int getCena() {

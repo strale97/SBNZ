@@ -4,19 +4,22 @@ import ftn.sbnz.SBNZBackend.model.Zahtevi;
 import ftn.sbnz.SBNZBackend.model.GPU;
 import ftn.sbnz.SBNZBackend.model.CPU;
 import ftn.sbnz.SBNZBackend.model.HardDrive;
+import ftn.sbnz.SBNZBackend.model.Skor;
 
 global Zahtevi zahtevi;
 
 rule "Konfiguracija ispod budzeta"
+    salience 100
     when
-        $k : Konfiguracija( cena <= zahtevi.getBudzet() )
+        $k : Konfiguracija( getSkor().getBudzet() == 0, cena <= zahtevi.getBudzet() )
     then
-        $k.addPoeni(80);
+        modify($k){getSkor().setBudzet(80)}
 end
 
 rule "Konfiguracija do 10% iznad budzeta"
+    salience 99
     when
-        $k : Konfiguracija( cena > zahtevi.getBudzet(), cena <= zahtevi.getBudzet()*1.1 )
+        $k : Konfiguracija( getSkor().getBudzet() == 0, cena > zahtevi.getBudzet(), cena <= zahtevi.getBudzet()*1.1 )
     then
-        $k.addPoeni(40);
+        modify($k){getSkor().setBudzet(40)}
 end

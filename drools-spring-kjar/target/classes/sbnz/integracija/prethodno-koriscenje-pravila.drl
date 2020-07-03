@@ -4,25 +4,29 @@ import ftn.sbnz.SBNZBackend.model.Zahtevi;
 import ftn.sbnz.SBNZBackend.model.GPU;
 import ftn.sbnz.SBNZBackend.model.CPU;
 import ftn.sbnz.SBNZBackend.model.HardDrive;
+import ftn.sbnz.SBNZBackend.model.Skor;
 
 global Zahtevi zahtevi;
 rule "Koristio pre racunar, trazi isti operativni sistem"
+    salience 96
     when
-        $k : Konfiguracija( zahtevi.isKoristioPre(), os == zahtevi.getOs() )
+        $k : Konfiguracija( getSkor().getPrethodnoKoriscen() == 0, zahtevi.isKoristioPre(), os == zahtevi.getOs() )
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setPrethodnoKoriscen(10)}
 end
 
 rule "Koristio pre racunar, nebitan operativni sistem"
+    salience 95
     when
-        $k : Konfiguracija( zahtevi.isKoristioPre(), zahtevi.getOs() == "NONE" )
+        $k : Konfiguracija( getSkor().getPrethodnoKoriscen() == 0, zahtevi.isKoristioPre(), zahtevi.getOs() == "NONE" )
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setPrethodnoKoriscen(10)}
 end
 
 rule "Nije koristio pre racunar, preporucuje mu se Windows"
+    salience 94
     when
-        $k : Konfiguracija( !zahtevi.isKoristioPre(), getOs() == "Windows" )
+        $k : Konfiguracija( getSkor().getPrethodnoKoriscen() == 0, !zahtevi.isKoristioPre(), getOs() == "Windows" )
     then
-        $k.addPoeni(10);
+        modify($k){getSkor().setPrethodnoKoriscen(10)}
 end

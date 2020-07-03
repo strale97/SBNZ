@@ -1,3 +1,5 @@
+package sbnz.integracija;
+
 rule "asd"
 when
 then

@@ -4,19 +4,22 @@ import ftn.sbnz.SBNZBackend.model.Zahtevi;
 import ftn.sbnz.SBNZBackend.model.GPU;
 import ftn.sbnz.SBNZBackend.model.CPU;
 import ftn.sbnz.SBNZBackend.model.HardDrive;
+import ftn.sbnz.SBNZBackend.model.Skor;
 
 global Zahtevi zahtevi;
 
 rule "Konfiguracija je istog tipa kao i zahtevana (laptop)"
+    salience 98
     when
-        $k : Konfiguracija( zahtevi.isLaptop(), isLaptop() )
+        $k : Konfiguracija( getSkor().getLaptop() == 0, zahtevi.isLaptop(), isLaptop() )
     then
-        $k.addPoeni(60);
+        modify($k){getSkor().setLaptop(60)}
 end
 
 rule "Konfiguracija je istog tipa kao i zahtevana (desktop)"
+    salience 97
     when
-        $k : Konfiguracija( !zahtevi.isLaptop(), !isLaptop() )
+        $k : Konfiguracija( getSkor().getLaptop() == 0, !zahtevi.isLaptop(), !isLaptop() )
     then
-        $k.addPoeni(30);
+        modify($k){getSkor().setLaptop(30)}
 end
