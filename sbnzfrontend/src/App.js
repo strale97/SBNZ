@@ -23,11 +23,11 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/pregled">
-            <Pregled />
-          </Route>
           <Route path="/pravilo">
             <DodajPravilo accessToken={accessToken} />
+          </Route>
+          <Route path="/">
+            <Pregled />
           </Route>
         </Switch>
       </Router>

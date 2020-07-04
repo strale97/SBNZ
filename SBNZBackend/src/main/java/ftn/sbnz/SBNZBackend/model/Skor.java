@@ -1,22 +1,70 @@
 package ftn.sbnz.SBNZBackend.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class Skor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private int id;
+
+    @Column(nullable = false)
     private Integer budzet = 0;
+
+    @Column(nullable = false)
     private Integer laptop = 0;
+
+    @Column(nullable = false)
     private Integer prethodnoKoriscen = 0;
+
+    @Column(nullable = false)
     private Integer cpuProizvodjac = 0;
+
+    @Column(nullable = false)
     private Integer gpuProizvodjac = 0;
+
+    @Column(nullable = false)
     private Integer jezgraCpu = 0;
+
+    @Column(nullable = false)
     private Integer tredoviCpu = 0;
+
+    @Column(nullable = false)
     private Integer brzinaCpu = 0;
+
+    @Column(nullable = false)
     private Integer memorijaGpu = 0;
+
+    @Column(nullable = false)
     private Integer tipMemorijeGpu = 0;
+
+    @Column(nullable = false)
     private Integer memorijaRam = 0;
+
+    @Column(nullable = false)
     private Integer tipMemorijeRam = 0;
+
+    @Column(nullable = false)
     private Integer brzinaRam = 0;
+
+    @Column(nullable = false)
     private Integer tipMemorijeHardDisk = 0;
+
+    @Column(nullable = false)
     private Integer memorijaHardDisk = 0;
+
+    @Column(nullable = false)
     private Integer suma = 0;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Integer getBudzet() {
         return budzet;

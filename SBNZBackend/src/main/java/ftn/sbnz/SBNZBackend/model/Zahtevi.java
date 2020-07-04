@@ -4,13 +4,13 @@ import ftn.sbnz.SBNZBackend.web.DTO.ZahteviDTO;
 
 public class Zahtevi {
 
-    private boolean koristioPre;
-    private String os;
-    private String upotreba;
-    private int budzet;
-    private boolean laptop;
-    private String prefGpu;
-    private String prefCpu;
+    private boolean koristioPre = false;
+    private String os = "NA";
+    private String upotreba = "NA";
+    private int budzet = 0;
+    private boolean laptop = false;
+    private String prefGpu = "NA";
+    private String prefCpu = "NA";
 
     public Zahtevi() {
     }

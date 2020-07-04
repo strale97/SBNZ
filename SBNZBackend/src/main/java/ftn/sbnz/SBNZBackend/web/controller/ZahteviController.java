@@ -52,4 +52,10 @@ public class ZahteviController {
         boolean uspeo = testService.dodajPravilo(drlDTO.getText(), drlDTO.getIme());
         return new ResponseEntity<>(uspeo, HttpStatus.OK);
     }
+
+    @PostMapping("/dodajKonfig")
+    public ResponseEntity<Konfiguracija> dodajKonfiguraciju(@RequestBody Konfiguracija konfiguracija) {
+        Konfiguracija k = testService.dodajKonfiguraciju(konfiguracija);
+        return new ResponseEntity<>(k, HttpStatus.OK);
+    }
 }

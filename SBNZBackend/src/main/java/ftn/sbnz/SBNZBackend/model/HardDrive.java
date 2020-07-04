@@ -1,8 +1,22 @@
 package ftn.sbnz.SBNZBackend.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class HardDrive {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private int id;
+
+    @Column(nullable = false)
     private String tip;
+
+    @Column(nullable = false)
     private int memorija;
+
+    @Column(nullable = false)
     private String ime;
 
     public HardDrive() {

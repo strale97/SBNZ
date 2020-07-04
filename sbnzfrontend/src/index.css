@@ -45,3 +45,11 @@ form > button {
   flex-direction: column;
   padding: 30px;
 }
+
+.konfiguracija > table {
+  align-items: center;
+  align-self: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}

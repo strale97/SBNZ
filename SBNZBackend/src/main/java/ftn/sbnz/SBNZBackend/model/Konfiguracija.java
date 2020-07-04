@@ -2,30 +2,55 @@ package ftn.sbnz.SBNZBackend.model;
 
 import org.kie.api.definition.type.Position;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table
 public class Konfiguracija {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     @Position(0)
     private int id;
+
+    @OneToOne(cascade={CascadeType.ALL})
     private CPU cpu;
+
+    @OneToOne(cascade={CascadeType.ALL})
     private GPU gpu;
+
+    @OneToOne(cascade={CascadeType.ALL})
     private RAM ram;
-    private ArrayList<HardDrive> hardDrives;
+
+    @OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+    private List<HardDrive> hardDrives;
+
+    @Column(nullable = false)
     private String ime;
+
+    @Column(nullable = false)
     private String link;
+
+    @Column(nullable = false)
     private int cena;
+
+    @Column(nullable = false)
     @Position(1)
     private String os;
+
+    @Column(nullable = false)
     @Position(2)
     private boolean laptop;
-    private boolean popularno = false;
+
+    @OneToOne(cascade={CascadeType.ALL})
     private Skor skor = new Skor();
 
     public Konfiguracija() {
     }
 
-    public Konfiguracija(int id, CPU cpu, GPU gpu, RAM ram, ArrayList<HardDrive> hardDrives, String ime, String link, int cena, String os, boolean laptop, boolean popularno, Skor skor) {
-        this.id = id;
+    public Konfiguracija(CPU cpu, GPU gpu, RAM ram, ArrayList<HardDrive> hardDrives, String ime, String link, int cena, String os, boolean laptop, Skor skor) {
         this.cpu = cpu;
         this.gpu = gpu;
         this.ram = ram;
@@ -35,16 +60,7 @@ public class Konfiguracija {
         this.cena = cena;
         this.os = os;
         this.laptop = laptop;
-        this.popularno = popularno;
         this.skor = skor;
-    }
-
-    public boolean isPopularno() {
-        return popularno;
-    }
-
-    public void setPopularno(boolean popularno) {
-        this.popularno = popularno;
     }
 
     public int getId() {
@@ -79,11 +95,11 @@ public class Konfiguracija {
         this.ram = ram;
     }
 
-    public ArrayList<HardDrive> getHardDrives() {
+    public List<HardDrive> getHardDrives() {
         return hardDrives;
     }
 
-    public void setHardDrives(ArrayList<HardDrive> hardDrives) {
+    public void setHardDrives(List<HardDrive> hardDrives) {
         this.hardDrives = hardDrives;
     }
 

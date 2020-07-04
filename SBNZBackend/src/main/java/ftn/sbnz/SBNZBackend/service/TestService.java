@@ -1,6 +1,7 @@
 package ftn.sbnz.SBNZBackend.service;
 
 import ftn.sbnz.SBNZBackend.model.*;
+import ftn.sbnz.SBNZBackend.repository.KonfiguracijaRepository;
 import ftn.sbnz.SBNZBackend.util.Sorter;
 import ftn.sbnz.SBNZBackend.web.DTO.DrlDTO;
 import org.apache.maven.shared.invoker.*;
@@ -14,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 @Service
 public class TestService {
@@ -22,9 +22,11 @@ public class TestService {
     @Autowired
     private KieContainer kieContainer;
 
+    @Autowired
+    private KonfiguracijaRepository konfiguracijaRepository;
+
     public Konfiguracija getById(int id){
-        ArrayList<Konfiguracija> konfiguracije = testKonfiguracije();
-        return konfiguracije.get(id);
+        return konfiguracijaRepository.findById(id);
     }
 
     public boolean dodajPravilo(String pravilo, String ime){
@@ -60,7 +62,7 @@ public class TestService {
 
     public ArrayList<Konfiguracija> filter(String os, boolean laptop){
         ArrayList<Konfiguracija> konfs = new ArrayList<>();
-        ArrayList<Konfiguracija> konfiguracije = testKonfiguracije();
+        ArrayList<Konfiguracija> konfiguracije = (ArrayList<Konfiguracija>) konfiguracijaRepository.findAll();
         KieSession kieSession = kieContainer.newKieSession("konfig");
         kieSession.setGlobal("konfiguracije", konfs);
         kieSession.setGlobal("os", os);
@@ -69,23 +71,18 @@ public class TestService {
         for (Konfiguracija konfiguracija: konfiguracije) {
             kieSession.insert(konfiguracija);
         }
-        try {
-            kieSession.fireAllRules();
-        } catch (Exception e) {
-            kieSession.dispose();
-            return konfs;
-        }
+        kieSession.fireAllRules();
         konfs =  (ArrayList<Konfiguracija>) kieSession.getGlobal("konfiguracije");
         kieSession.dispose();
         return konfs;
     }
 
     public ArrayList<Konfiguracija> getAll(){
-        return testKonfiguracije();
+        return (ArrayList<Konfiguracija>) konfiguracijaRepository.findAll();
     }
 
     public ArrayList<Konfiguracija> topPreporuke(Zahtevi zahtevi) {
-        ArrayList<Konfiguracija> konfiguracije = testKonfiguracije();
+        ArrayList<Konfiguracija> konfiguracije = (ArrayList<Konfiguracija>) konfiguracijaRepository.findAll();
         KieSession kieSession = kieContainer.newKieSession("konfig");
         kieSession.setGlobal("konfiguracije", new ArrayList<>());
         kieSession.setGlobal("os", "");
@@ -95,12 +92,13 @@ public class TestService {
             kieSession.insert(konfiguracija);
         }
         kieSession.fireAllRules();
-        ArrayList<Konfiguracija> top4 = new ArrayList<>();
+        ArrayList<Konfiguracija> top5 = new ArrayList<>();
         Collections.sort(konfiguracije, new Sorter());
-        for (int i = 0; i < 4; i++) {
-            top4.add(konfiguracije.get(i));
+        for (int i = 0; i < 5; i++) {
+            top5.add(konfiguracije.get(i));
         }
-        for (Konfiguracija konfiguracija: top4) {
+        /*
+        for (Konfiguracija konfiguracija: top5) {
             System.out.println(konfiguracija.getIme() + ": " + konfiguracija.getSkor().getSuma());
             System.out.println("GPU: " + konfiguracija.getGpu().getIme());
             System.out.println("CPU: " + konfiguracija.getCpu().getIme());
@@ -112,8 +110,9 @@ public class TestService {
             System.out.println("Laptop: " + konfiguracija.isLaptop());
             System.out.println("-------------------------------------------------------------");
         }
+        */
         kieSession.dispose();
-        return top4;
+        return top5;
     }
 
     public void test(ArrayList<Konfiguracija> konfiguracije, Zahtevi zahtevi) {
@@ -371,4 +370,7 @@ public class TestService {
         return konfiguracije;
     }
 
+    public Konfiguracija dodajKonfiguraciju(Konfiguracija konfiguracija) {
+        return konfiguracijaRepository.save(konfiguracija);
+    }
 }

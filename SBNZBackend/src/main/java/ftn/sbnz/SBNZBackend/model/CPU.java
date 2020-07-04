@@ -1,9 +1,25 @@
 package ftn.sbnz.SBNZBackend.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class CPU {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private int id;
+
+    @Column(nullable = false)
     private double brzina;
+
+    @Column(nullable = false)
     private int jezgra;
+
+    @Column(nullable = false)
     private int tredovi;
+
+    @Column(nullable = false)
     private String ime;
 
     public CPU() {
@@ -14,6 +30,14 @@ public class CPU {
         this.jezgra = jezgra;
         this.tredovi = tredovi;
         this.ime = ime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getBrzina() {

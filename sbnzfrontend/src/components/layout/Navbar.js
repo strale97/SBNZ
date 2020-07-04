@@ -38,10 +38,9 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-
           <Button>
-            <Link className={classes.link} to="/login">
-              Login
+            <Link className={classes.link} to="/">
+              Pregled svih konfiguracija
             </Link>
           </Button>
           <Button>
@@ -50,8 +49,8 @@ const Navbar = () => {
             </Link>
           </Button>
           <Button>
-            <Link className={classes.link} to="/pregled">
-              Pregled svih konfiguracija
+            <Link className={classes.link} to="/login">
+              Login
             </Link>
           </Button>
           <Button>

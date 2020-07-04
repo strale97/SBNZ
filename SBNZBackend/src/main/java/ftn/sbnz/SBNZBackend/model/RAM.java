@@ -1,9 +1,25 @@
 package ftn.sbnz.SBNZBackend.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class RAM {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private int id;
+
+    @Column(nullable = false)
     private int memorija;
+
+    @Column(nullable = false)
     private String tipMemorije;
+
+    @Column(nullable = false)
     private int brzina;
+
+    @Column(nullable = false)
     private String ime;
 
     public RAM() {
@@ -14,6 +30,14 @@ public class RAM {
         this.tipMemorije = tipMemorije;
         this.brzina = brzina;
         this.ime = ime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getMemorija() {
